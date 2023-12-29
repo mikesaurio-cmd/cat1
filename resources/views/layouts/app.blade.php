@@ -32,83 +32,87 @@
 
 </head>
 <body>
-    <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
-            <a class="navbar-brand" href="{{ route('home') }}"><img src="/imagenes/simasa.png" alt="Simasa Logo" style="width: 100px; height: auto;"></a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+<div id="app">
+    <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="{{ route('home') }}">
+                <img src="/imagenes/simasa.png" alt="Simasa Logo" style="width: 100px; height: auto;">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-                        @auth
-                            @if (auth()->user()->role == 'admin')
-                                
-                                <!-- Otras opciones de menú para el administrador -->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('empleado.index') }}">{{ __('Empleados') }}</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('empresas.index') }}">{{ __('Empresas') }}</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('plantas.index') }}">{{ __('Plantas') }}</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('nopartes.index') }}">{{ __('No. Partes') }}</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('formulario') }}">{{ __('Crear tarjeta') }}</a>
-                                </li>
-                                <div class="dropdown">
-                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Reportes
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="{{ route('registrosVencen') }}">Por vencer</a>
-                                        <a class="dropdown-item" href="{{ route('registrosTodos') }}">Todos</a>
-                                    </div>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <!-- Left Side Of Navbar -->
+                <ul class="navbar-nav mr-auto">
+                    @auth
+                        @if (auth()->user()->role == 'admin')
+                            <!-- Otras opciones de menú para el administrador -->
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('empleado.index') }}">{{ __('Empleados') }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('empresas.index') }}">{{ __('Empresas') }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('plantas.index') }}">{{ __('Plantas') }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('nopartes.index') }}">{{ __('No. Partes') }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('formulario') }}">{{ __('Crear tarjeta') }}</a>
+                            </li>
+                            <div class="dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:green">
+                                    <b>Reportes</b>
+                                </a>
+                                <div class="dropdown-menu" >
+                                    <a class="dropdown-item" href="{{ route('registrosVencen') }}" style="color:red">Por vencer</a>
+                                    <a class="dropdown-item" href="{{ route('registrosTodos') }}">Todos</a>
                                 </div>
-                            @else
-                                <!-- Si el usuario NO es un admin, muestra solo "Crear tarjeta" y "Registros" -->
-                                
-                                <div class="dropdown">
-                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Reportes
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="{{ route('registrosVencen') }}">Por vencer</a>
-                                        <a class="dropdown-item" href="{{ route('registrosTodos') }}">Todos</a>
-                                    </div>
-                                </div>
-                            @endif
-                        @endauth
-                    </ul>
+                            </div>
+                            
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:blue">
+                                    <b>Mantenimiento</b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="{{ route('mmtoPerso') }}">Solicitar</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('irmttoperso') }}">Estatus</a></li>
+                                </ul>
+                            </li>
 
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
-                        @guest
-                            @if (Route::has('login'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Iniciar Sesión') }}</a>
-                                </li>
-                            @endif
-
-                           <!-- @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Registrar') }}</a>
-                                </li>
-                            @endif  -->
                         @else
+                            <!-- Si el usuario NO es un admin, muestra solo "Crear tarjeta" y "Registros" -->
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Reportes
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="{{ route('registrosVencen') }}">Por vencer</a>
+                                    <a class="dropdown-item" href="{{ route('registrosTodos') }}">Todos</a>
+                                </div>
+                            </div>
+                        @endif
+                    @endauth
+                </ul>
+
+                <!-- Right Side Of Navbar -->
+                <ul class="navbar-nav ml-auto">
+                    @guest
+                        @if (Route::has('login'))
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('login') }}">{{ __('Iniciar Sesión') }}</a>
+                            </li>
+                        @endif
+                    @else
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 {{ Auth::user()->name }}
                             </a>
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('logout') }}"
-                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     {{ __('Salir') }}
                                 </a>
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -116,15 +120,16 @@
                                 </form>
                             </div>
                         </li>
-                        @endguest
-                    </ul>
-                </div>
+                    @endguest
+                </ul>
             </div>
-        </nav>
+        </div>
+    </nav>
 
-        <main class="py-4">
-            @yield('content')
-        </main>
-    </div>
+    <main class="py-4">
+        @yield('content')
+    </main>
+</div>
+
 </body>
 </html>

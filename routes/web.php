@@ -11,11 +11,11 @@ Route::get('/', function () {
     return view('auth.login');
 })->name('login');
 
-Route::get('/storage-link', function(){
-  $targetFolder = storage_path('app/public');
-  $linkFolder = $_SERVER['DOCUMENT_ROOT'] . '/storage';
-  symlink($targetFolder,$linkFolder);
-});
+// Route::get('/storage-link', function(){
+//   $targetFolder = storage_path('app/public');
+//   $linkFolder = $_SERVER['DOCUMENT_ROOT'] . '/storage';
+//   symlink($targetFolder,$linkFolder);
+// });
 
 Route::get('/registro', function () {
     return view('auth.register');
@@ -38,6 +38,8 @@ Route::get('imprimir', [PageController::class, 'imprimir'])->name('imprimir');
 
 Route::get('irmtto/{id}', [PageController::class, 'irmtto'])->name('irmtto')->middleware('auth');
 
+
+
 Route::get('/mostrarInformacion/{id}', [PageController::class, 'mostrarInformacion'])->name('mostrarInformacion')->middleware('auth');
 
 Route::group(['middleware' => 'auth'], function () {
@@ -48,4 +50,8 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::post('validarMtto', [PageController::class, 'validarMtto'])->name('validarMtto')->middleware('auth');
 
+Route::get('mmtoPerso', [PageController::class, 'mmtoPerso'])->name('mmtoPerso');
 
+Route::post('enviarMmtoPerso', [PageController::class, 'enviarMmtoPerso'])->name('enviarMmtoPerso');
+
+Route::get('irmttoperso', [PageController::class, 'irmttoperso'])->name('irmttoperso');

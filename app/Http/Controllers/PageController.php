@@ -93,7 +93,8 @@ class PageController extends Controller
         {
 
             $datos = DB::table('tbl_registros')->where('planta', auth()->user()->idPlanta)->get();
-        return view('registrosVencen', ['datos' => $datos]); 
+
+            return view('registrosVencen', ['datos' => $datos]); 
         }
 
     public function registrosTodos()
@@ -168,8 +169,36 @@ class PageController extends Controller
             }
         }
 
-       
-        
+    public function mmtoPerso()      
+        {
+            $frecuencia = DB::table('tbl_frecuencias')->get();
+            $noparte = DB::table('nopartes')->get();
+            $planta = DB::table('plantas')->get();
+            return view('mttoPerso',['noparte' => $noparte,'frecuencia' => $frecuencia, 'planta' => $planta ]); 
+        }
+    
+    public function enviarMmtoPerso(Request $Request)      
+    {
+        //dd($Request);
+        $date = Carbon::now();
+        $user = auth()->user()->id;
+        DB::table('tbl_mttopersonalizado')->insert([
+            'nombreMtto' => $Request->nombreMtto,
+            'noParte' => $Request->nopartes,
+            'planta' => $Request->planta,
+            'frecuencia' => $Request->frecuencia,
+            'observacion' => $Request->observacion,
+            'dateCreation' => $date,
+            'userCreation' => $user,
+        ]);
 
+        return redirect('irmttoperso');
+    }
+
+    public function irmttoperso()
+    {
+        $registros = DB::table('tbl_mttopersonalizado')->where('planta', auth()->user()->idPlanta)->get();
+        return view('regisMtto',['registros' => $registros])->with('mensaje', 'Registros creados con éxito');
+    }
     
 }
