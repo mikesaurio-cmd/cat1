@@ -77,7 +77,7 @@
                 <div class="modal-body text-center"> <!-- Centra el contenido -->
                     <h4 style="color: red;">Escanea el código QR</h4>
 
-                    <img src="{{ asset('https://informatica.simasatechnologies.com/cat/public/' . $value->qrPieza) }}" alt="QR Code" width="200">
+                    <img src="{{ asset('qr_codes/' . $value->noRegistro . '.png') }}" alt="QR Code" width="200">
                     
                     <br>
                     <br>

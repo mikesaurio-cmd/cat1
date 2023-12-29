@@ -77,9 +77,13 @@
     </div>
     <div class="row">
         <div class="col-12">
-
+        
         <center>
-            <a href="{{ route('irmtto',['id' => $registro->IdRegistro]) }}" class="btn btn-warning">Validar mantenimiento</a>
+            @auth
+                @if (auth()->user()->role == 'admin')
+                <a href="{{ route('irmtto',['id' => $registro->IdRegistro]) }}" class="btn btn-warning">Validar mantenimiento</a>
+                @endif
+            @endauth
             <a href="javascript:history.back()" class="btn btn-primary">Regresar</a>
             @if($registro->img)
                 <a href="{{ $registro->img }}" download class="btn btn-success">Descargar archivos</a><br><br>
@@ -103,9 +107,11 @@
                 </div>
 
             @else
-                <br><br>
-                <img src="/cat/public/imagenes/imgNoDisp.jpg" class="d-block w-200" style="max-height: 200px;" title="No hay archivo para descargar.">
-                <br><br>
+                <center>
+                    <br><br>
+                    <img src="/imagenes/imgNoDisp.jpg" class="d-block w-200" style="max-height: 200px;" title="No hay archivo para descargar.">
+                    <br><br>
+                </center>
             @endif
             
         </center>
