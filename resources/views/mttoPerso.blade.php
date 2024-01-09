@@ -58,10 +58,12 @@
         <label for="planta"><b>Escribe la descripción del mantenimiento</b></label> <label style="color: #E74C3C;">*</label>
         <input type="text" class="form-control" name="observacion">
         <br>
-
-        <input type="submit" class="btn btn-success">
-        <a href="{{url('home')}}" class="btn btn-primary">Regresar</a>
-
+        
+        <center>
+            <input type="submit" class="btn btn-success" value="Siguiente">
+            <a href="{{url('irmttoperso')}}" class="btn btn-primary">Regresar</a>
+        </center>
+        
         </div>
     </form>
     
