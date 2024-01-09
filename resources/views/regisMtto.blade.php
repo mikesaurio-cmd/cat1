@@ -10,7 +10,7 @@
 @endif
 
 <h2><b>Registros de Mantenimiento</b></h2>
-<a href="{{ route('mmtoPerso') }}" class="btn btn-warning">Nuevo Mtto</a>
+<a href="{{ route('mmtoPerso') }}" class="btn btn-warning">Nuevo Mantenimiento</a>
 <br><br>
 
 <div class="row">
