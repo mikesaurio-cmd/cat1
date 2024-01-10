@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 
@@ -38,39 +39,39 @@ class EmpleadoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-{
-    // Validación de campos
-    //dd($request);
-    $campos = [
-        'name' => 'required|string|max:100',
-        'email' => 'required|email',
-        'password' => 'required|string|max:100',
-        'role' => 'required|string|max:100',
-        'idPlanta' => 'required|string|max:100',
-    ];
+    {
+        // Validación de campos
+        //dd($request);
+        $campos = [
+            'name' => 'required|string|max:100',
+            'email' => 'required|email',
+            'password' => 'required|string|max:100',
+            'role' => 'required|string|max:100',
+            'idPlanta' => 'required|string|max:100',
+        ];
 
-    $mensaje = [
-        'name.required' => 'El nombre es requerido.',
-        'email.required' => 'El correo es requerido.',
-        'password.required' => 'La contraseña es requerida.',
-        'role.required' => 'El rol es requerido.',
-        'idPlanta.required' => 'El rol es requerido.',
-    ];
+        $mensaje = [
+            'name.required' => 'El nombre es requerido.',
+            'email.required' => 'El correo es requerido.',
+            'password.required' => 'La contraseña es requerida.',
+            'role.required' => 'El rol es requerido.',
+            'idPlanta.required' => 'El rol es requerido.',
+        ];
 
-    $this->validate($request, $campos, $mensaje);
+        $this->validate($request, $campos, $mensaje);
 
-    // Obtener los datos del formulario, excepto el token CSRF
-    $datosEmpleado = $request->except('_token');
+        // Obtener los datos del formulario, excepto el token CSRF
+        $datosEmpleado = $request->except('_token');
 
-    // Encriptar la contraseña
-    $datosEmpleado['password'] = bcrypt($request->input('password'));
+        // Encriptar la contraseña
+        $datosEmpleado['password'] = bcrypt($request->input('password'));
 
-    // Insertar el usuario en la base de datos
+        // Insertar el usuario en la base de datos
 
-    User::insert($datosEmpleado);
+        User::insert($datosEmpleado);
 
-    return redirect('empleado')->with('mensaje', 'Usuario agregado con éxito');
-}
+        return redirect('empleado')->with('mensaje', 'Usuario agregado con éxito');
+    }
 
 
     /**
@@ -92,10 +93,35 @@ class EmpleadoController extends Controller
      */
     public function edit($id)
     {
-        //
-        $empleado=Empleado::findOrFail($id);
+        //dd($id);
 
-        return view('empleados.edit',compact('empleado'));
+        $infoUser = DB::table('users')->where('id', $id)->first();
+        
+        return view('empleados.editUsr',['infoUser' => $infoUser,'modo'=>'Editar']);
+    }
+
+    public function sendEdit(Request $Request)
+    {
+        //dd($Request);
+
+        $user = DB::table('users')->where('id', $Request->id)->first();
+
+        if ($user) {
+            $updateData = [
+                'name' => $Request->filled('name') ? $Request->name : $user->name,
+                'email' => $Request->filled('email') ? $Request->email : $user->email,
+                'password' => $Request->filled('password') ? $Request->password : $user->password,
+                'idPlanta' => $Request->filled('idPlanta') ? $Request->idPlanta : $user->idPlanta,
+                'role' => $Request->filled('role') ? $Request->role : $user->role,
+            ];
+
+            if ($updateData != array_intersect_key((array)$user, $updateData)) {
+                DB::table('users')->where('id', $Request->id)->update($updateData);
+            }
+        }
+        
+        // return view('empleados.editUsr',['infoUser' => $infoUser,'modo'=>'Editar']);
+        return redirect('empleado')->with('mensaje','Usuario modificado');
     }
 
     /**

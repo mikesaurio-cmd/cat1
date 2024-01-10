@@ -14,7 +14,7 @@
 @endif
 
 
-<a href="{{url('empleado/create')}}" class="btn btn-success">Registrar nuevo empleado</a>
+<a href="{{url('empleado/create')}}" class="btn btn-success">Registrar nuevo usuario</a>
 <br><br>
 <div class="row">
     <div class="table-responsive col-12">
@@ -36,9 +36,13 @@
                     <td>{{ $value->name }}</td>
                     <td>{{ $value->email  }}</td>
                     <td>{{ $value->role }}</td>
-                    <td>                
+                    <td>
                         <form action="{{ url('/empleado/'.$value->id) }}" method="post" class="d-inline">
                             @csrf
+                            <a href="{{url ('/empleado/'.$value->id.'/edit') }}" class="btn btn-warning">
+                            Editar
+                            </a>
+                            |  
                             {{method_field('DELETE')}}
                             <input type="submit" onclick="return confirm('¿Quieres borrar?')" value="Borrar" class="btn btn-danger">
                         </form>

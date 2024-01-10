@@ -55,3 +55,5 @@ Route::get('mmtoPerso', [PageController::class, 'mmtoPerso'])->name('mmtoPerso')
 Route::post('enviarMmtoPerso', [PageController::class, 'enviarMmtoPerso'])->name('enviarMmtoPerso');
 
 Route::get('irmttoperso', [PageController::class, 'irmttoperso'])->name('irmttoperso');
+
+Route::post('sendEdit', [EmpleadoController::class, 'sendEdit'])->name('sendEdit');

@@ -33,25 +33,22 @@
 
                 <tr>
 
-            <th>#</th>
+                    <th>#</th>
 
-            <th>Nombre</th>
+                    <th>Nombre</th>
 
-            <th>Contacto</th>
+                    <th>Contacto</th>
 
-            <th>Telefono</th>
+                    <th>Telefono</th>
 
-            <th>Correo</th>
+                    <th>Correo</th>
 
-            <th>Acciones</th>
+                    <th>Acciones</th>
 
-        </tr>
+                </tr>
 
-    </thead>
-
-
-
-    <tbody>
+            </thead>
+        <tbody>
 
         @foreach($empresas as $empresa)
 

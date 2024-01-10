@@ -200,5 +200,7 @@ class PageController extends Controller
         $registros = DB::table('tbl_mttopersonalizado')->where('planta', auth()->user()->idPlanta)->get();
         return view('regisMtto',['registros' => $registros])->with('mensaje', 'Registros creados con éxito');
     }
+
+    
     
 }

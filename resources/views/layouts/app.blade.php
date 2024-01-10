@@ -49,7 +49,7 @@
                         @if (auth()->user()->role == 'admin')
                             <!-- Otras opciones de menú para el administrador -->
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('empleado.index') }}">{{ __('Empleados') }}</a>
+                                <a class="nav-link" href="{{ route('empleado.index') }}">{{ __('Usuarios') }}</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('empresas.index') }}">{{ __('Empresas') }}</a>
