@@ -34,6 +34,7 @@
                         <label for="idPlanta">Planta</label> <label style="color: #E74C3C;">*</label>
                         <select class="form-control" name="idPlanta" id="idPlanta">
                             <option value="">Selecciona una opción</option>
+                            <option value="Simasa">Simasa</option>
                             @foreach($planta as $value)
                                 <option value="{{ $value->id }}" {{ (old('noParte') == $value->id ? "selected":"") }}> {{ $value->nombrePlanta }}</option>
                             @endforeach
@@ -49,7 +50,6 @@
                         <br>
                         <center>
                             <input type="submit" value="{{$modo}} datos" class="btn btn-success">
-
                             <a href="{{url('empleado')}}" class="btn btn-primary">Regresar</a>
                         </center>
                     </div>

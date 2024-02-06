@@ -17,7 +17,7 @@ class NopartesController extends Controller
     public function index()
     {
         //
-        $datos['nopartes']=nopartes::paginate(5);
+        $datos['nopartes']=nopartes::paginate();
         return view ('nopartes.index', $datos);
     }
 

@@ -17,7 +17,7 @@ class EmpresasController extends Controller
     public function index()
     {
         //
-        $datos['empresas']=Empresas::paginate(5);
+        $datos['empresas']=Empresas::paginate();
         return view ('empresas.index', $datos);
     }
 

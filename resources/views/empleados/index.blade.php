@@ -14,6 +14,7 @@
 @endif
 
 
+
 <a href="{{url('empleado/create')}}" class="btn btn-success">Registrar nuevo usuario</a>
 <br><br>
 <div class="row">
@@ -25,10 +26,11 @@
                     <th>Nombre</th>
                     <th>Correo</th>
                     <th>Rol</th>
+                    <th>Planta</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
-
+            
             <tbody>
                 @foreach( $user as $value) 
                 <tr>
@@ -36,6 +38,7 @@
                     <td>{{ $value->name }}</td>
                     <td>{{ $value->email  }}</td>
                     <td>{{ $value->role }}</td>
+                    <td>{{ $value->idPlanta }}</td>
                     <td>
                         <form action="{{ url('/empleado/'.$value->id) }}" method="post" class="d-inline">
                             @csrf
@@ -53,10 +56,6 @@
         </table>
     </div>
 </div>
-@else
-@endif
-    @endauth
-
 <script type="text/javascript">
     $(document).ready( function () {
         $('#table_id').DataTable({
@@ -80,4 +79,9 @@
     } );
 </script>
 </div>
+@else
+@endif
+    @endauth
+
+
 @endsection

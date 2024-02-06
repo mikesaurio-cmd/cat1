@@ -7,6 +7,7 @@
     <title>Catalogos</title>
 
     <!-- Scripts -->
+    
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 
@@ -36,7 +37,8 @@
     <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
         <div class="container">
             <a class="navbar-brand" href="{{ route('home') }}">
-                <img src="/imagenes/simasa.png" alt="Simasa Logo" style="width: 100px; height: auto;">
+                <img src="https://informatica.simasatechnologies.com/cat/public/imagenes/simasa.png" alt="Simasa Logo" style="width: 100px; height: auto;">
+                <!-- <img src="/imagenes/simasa.png" alt="Simasa Logo" style="width: 100px; height: auto;"> -->
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                 <span class="navbar-toggler-icon"></span>
@@ -84,7 +86,6 @@
                             </li>
 
                         @else
-                            <!-- Si el usuario NO es un admin, muestra solo "Crear tarjeta" y "Registros" -->
                             <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Reportes

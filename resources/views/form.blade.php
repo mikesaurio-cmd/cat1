@@ -9,63 +9,72 @@
     </div>
 @endif 
 
-    <h1>Tarjeta de informe</h1>
-    <br>
-    <b><label style="color: #E74C3C;">Todos los campos con * son obligatorios</label></b>
-    <form action="{{ route('enviarInfo') }}" method="post" enctype="multipart/form-data">
-        @csrf
-        <div class="form-group">
+    <div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header"><b>Tarjeta de informe</b></div>
+                
+                <div class="card-body">
+                    <b><label style="color: #E74C3C;">Todos los campos con * son obligatorios</label></b>
+                    <form action="{{ route('enviarInfo') }}" method="post" enctype="multipart/form-data">
+                        @csrf
+                        <div class="form-group">
 
-        <label for="noParte">Empresa</label> <label style="color: #E74C3C;">*</label>
-        <select class="form-control" name="noParte" id="noParte">
-            <option value="">Selecciona una empresa</option>
-            @foreach($empresa as $value)
-                <option value="{{ $value->id }}" {{ (old('noParte') == $value->id ? "selected":"") }}> {{ $value->nomEmpresa }}</option>
-            @endforeach
-        </select>
-        <br>
-        
-        <div class="mb-3">
-            <label for="imagenInput" class="form-label">Selecciona imagen</label><label style="color: #E74C3C;">*</label>
-            <input type="file" class="form-control" id="imagenInput" name="imagen" >
-        </div>
+                        <label for="noParte">Empresa</label> <label style="color: #E74C3C;">*</label>
+                        <select class="form-control" name="noParte" id="noParte">
+                            <option value="">Selecciona una empresa</option>
+                            @foreach($empresa as $value)
+                                <option value="{{ $value->id }}" {{ (old('noParte') == $value->id ? "selected":"") }}> {{ $value->nomEmpresa }}</option>
+                            @endforeach
+                        </select>
+                        <br>
+                        
+                        <div class="mb-3">
+                            <label for="imagenInput" class="form-label">Selecciona imagen</label><label style="color: #E74C3C;">*</label>
+                            <input type="file" class="form-control" id="imagenInput" name="imagen" >
+                        </div>
 
-        <label for="planta">Planta</label> <label style="color: #E74C3C;">*</label>
-        <select class="form-control" name="planta" id="planta">
-            <option value="">Selecciona una planta</option>
-            @foreach($planta as $value)
-                <option value="{{ $value->id }}" {{ (old('planta') == $value->id ? "selected":"") }}> {{ $value->nombrePlanta }}</option>
-            @endforeach
-        </select>
-        <br>
+                        <label for="planta">Planta</label> <label style="color: #E74C3C;">*</label>
+                        <select class="form-control" name="planta" id="planta">
+                            <option value="">Selecciona una planta</option>
+                            @foreach($planta as $value)
+                                <option value="{{ $value->id }}" {{ (old('planta') == $value->id ? "selected":"") }}> {{ $value->nombrePlanta }}</option>
+                            @endforeach
+                        </select>
+                        <br>
 
-        <div class="row">
-            <div class="col-4">
-                <label for="noparte">No. de Parte</label> <label style="color: #E74C3C;">*</label>
-                <select class="form-control" name="noparte" id="noparte">
-                    <option value="">Selecciona no. parte</option>
-                    @foreach($noparte as $value)
-                        <option value="{{ $value->noParte }}" {{ (old('noparte') == $value->noParte ? "selected":"") }}> {{ $value->noParte }}</option>
-                    @endforeach
-                </select>
-                <br>
+                        <div class="row">
+                            <div class="col-4">
+                                <label for="noparte">No. de Parte</label> <label style="color: #E74C3C;">*</label>
+                                <select class="form-control" name="noparte" id="noparte">
+                                    <option value="">Selecciona no. parte</option>
+                                    @foreach($noparte as $value)
+                                        <option value="{{ $value->noParte }}" {{ (old('noparte') == $value->noParte ? "selected":"") }}> {{ $value->noParte }}</option>
+                                    @endforeach
+                                </select>
+                                <br>
+                            </div>
+                            <div class="col-4">
+                                <label for="cantidad">Cantidad de partes</label><label style="color: #E74C3C;">*</label>
+                                <input type="number" class="form-control" name="cantidad" placeholder="Escriba cantidad">
+                            </div>
+                            <div class="col-4">
+                                <label for="mantenimiento">Fecha de mantenimiento</label><label style="color: #E74C3C;">*</label>
+                                <input type="date" class="form-control" name="mantenimiento">
+                            </div>
+                        </div>
+                        <center>
+                            <input type="submit" class="btn btn-success">
+                            <a href="{{url('home')}}" class="btn btn-primary">Regresar</a>
+                        </center>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="col-4">
-                <label for="cantidad">Cantidad de partes</label><label style="color: #E74C3C;">*</label>
-                <input type="number" class="form-control" name="cantidad" placeholder="Escriba cantidad">
-            </div>
-            <div class="col-4">
-                <label for="mantenimiento">Fecha de mantenimiento</label><label style="color: #E74C3C;">*</label>
-                <input type="date" class="form-control" name="mantenimiento">
-            </div>
         </div>
-        
-        
-        <input type="submit" class="btn btn-success">
-        <a href="{{url('home')}}" class="btn btn-primary">Regresar</a>
-
-        </div>
-    </form>
+    </div>
+</div>
     
 </div>
 @endsection

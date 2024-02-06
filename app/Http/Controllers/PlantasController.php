@@ -17,7 +17,7 @@ class PlantasController extends Controller
     public function index()
     {
         //
-        $datos['plantas']=plantas::paginate(5);
+        $datos['plantas']=plantas::paginate();
         return view ('plantas.index', $datos);
     }
 

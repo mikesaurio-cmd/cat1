@@ -54,6 +54,13 @@ Route::get('mmtoPerso', [PageController::class, 'mmtoPerso'])->name('mmtoPerso')
 
 Route::post('enviarMmtoPerso', [PageController::class, 'enviarMmtoPerso'])->name('enviarMmtoPerso');
 
+Route::post('validarinfo', [PageController::class, 'validarinfo'])->name('validarinfo');
+
 Route::get('irmttoperso', [PageController::class, 'irmttoperso'])->name('irmttoperso');
 
 Route::post('sendEdit', [EmpleadoController::class, 'sendEdit'])->name('sendEdit');
+
+
+Route::get('fixture/{id}', [PageController::class, 'fixture'])->name('fixture');
+
+Route::post('fixturesInfo', [PageController::class, 'fixturesInfo'])->name('fixturesInfo');

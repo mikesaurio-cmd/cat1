@@ -23,9 +23,7 @@ class PageController extends Controller
         public function enviarInfo(Request $request)
         {
 
-            //dd($request);
-
-            
+            //dd($request);            
             // Obtener los valores del formulario
             $empresa = $request->input('noParte');
             $planta = $request->input('planta');
@@ -89,33 +87,51 @@ class PageController extends Controller
             return redirect('form')->with('mensaje', 'Registros creados con éxito');
         }   
 
-    public function registrosVencen()
+        public function registrosVencen()
         {
-
-            $datos = DB::table('tbl_registros')->where('planta', auth()->user()->idPlanta)->get();
-
+            
+            $idPlanta = auth()->user()->idPlanta;
+        
+            
+            $datos = ($idPlanta == 'Simasa') 
+                ? DB::table('tbl_registros')->get()  
+                : DB::table('tbl_registros')->where('planta', $idPlanta)->get();  
+        
             return view('registrosVencen', ['datos' => $datos]); 
         }
-
-    public function registrosTodos()
-    {
-        $datos = DB::table('tbl_registros')->where('planta', auth()->user()->idPlanta)->get();
-        return view('noregistros_todos', ['datos' => $datos]);
-    }
+        
+        public function registrosTodos()
+        {
+            
+            $idPlanta = auth()->user()->idPlanta;
+        
+            
+            $datos = ($idPlanta == 'Simasa') 
+                ? DB::table('tbl_registros')->get()  
+                : DB::table('tbl_registros')->where('planta', $idPlanta)->get();  
+        
+            return view('noregistros_todos', ['datos' => $datos]);
+        }        
 
     public function mostrarInformacion($id)
         {
             $registrosTodos = DB::table('tbl_registros')->get();
             $registro = DB::table('tbl_registros')->where('noRegistro', $id)->first();
-            
-            // Corregir la consulta para obtener la empresa asociada al registro
-            $empresa = DB::table('empresas')->where('id', $registro->empresa)->first();
-            $planta = DB::table('plantas')->where('id', $registro->planta)->first();
-
-            $mtto = DB::table('tbl_mtto')->where('idRegistro', $registro->IdRegistro)->get();
-
-            return view('qr', compact(['registro', 'empresa', 'registrosTodos', 'planta','mtto']));
+        
+            if ($registro) {
+                $empresa = DB::table('empresas')->where('id', $registro->empresa)->first();
+                $planta = DB::table('plantas')->where('id', $registro->planta)->first();
+        
+                $mtto = DB::table('tbl_mtto')->where('idRegistro', $registro->IdRegistro)->get();
+        
+                return view('qr', compact(['registro', 'empresa', 'registrosTodos', 'planta', 'mtto']));
+            } else {
+                // Si no se encuentra el registro, regresar a la misma vista con la información general
+                return redirect()->back()->with('mensaje', 'Registro realizado');
+            }
         }
+        
+        
 
     public function irmtto($id)
     
@@ -142,7 +158,7 @@ class PageController extends Controller
                 'updateCreation' => $Request->fechaMtto,
             ]);
 
-            return redirect('mostrarInformacion/' . $Request->idRegistro)->with('mensaje', 'Registro de mantenimiento agregado con éxito');
+            return redirect('mostrarInformacion/' . $Request->noRegistro)->with('mensaje', 'Registro de mantenimiento agregado con éxito');
 
         }
 
@@ -174,33 +190,74 @@ class PageController extends Controller
             $frecuencia = DB::table('tbl_frecuencias')->get();
             $noparte = DB::table('nopartes')->get();
             $planta = DB::table('plantas')->get();
-            return view('mttoPerso',['noparte' => $noparte,'frecuencia' => $frecuencia, 'planta' => $planta ]); 
+            return view('mttoPerso',['noparte' => $noparte,'frecuencia' => $frecuencia, 'planta' => $planta]); 
         }
     
-    public function enviarMmtoPerso(Request $Request)      
+        public function enviarMmtoPerso(Request $request)      
+        {
+            $date = Carbon::now();
+            $user = auth()->user()->id;
+        
+            // Insertar el registro y obtener el ID
+            $id = DB::table('tbl_mttopersonalizado')->insertGetId([
+                'nombreMtto' => $request->nombreMtto,
+                'noParte' => $request->nopartes,
+                'planta' => $request->planta,
+                'frecuencia' => $request->frecuencia,
+                'observacion' => $request->observacion,
+                'dateCreation' => $date,
+                'userCreation' => $user,
+            ]);
+        
+            // Obtener la información del último registro
+            $info = DB::table('tbl_mttopersonalizado')->where('idMtto', $id)->latest('dateCreation')->first();
+        
+            return view('mttoPerso2', ['info' => $info, 'id' => $id]);
+        }
+        
+
+
+    public function validarinfo(Request $Request)
     {
         //dd($Request);
-        $date = Carbon::now();
-        $user = auth()->user()->id;
-        DB::table('tbl_mttopersonalizado')->insert([
-            'nombreMtto' => $Request->nombreMtto,
-            'noParte' => $Request->nopartes,
-            'planta' => $Request->planta,
-            'frecuencia' => $Request->frecuencia,
-            'observacion' => $Request->observacion,
-            'dateCreation' => $date,
-            'userCreation' => $user,
-        ]);
-
-        return redirect('irmttoperso');
+        DB::table('tbl_mttopersonalizado')->where('idMtto',$Request->idMtto)->update([
+                
+                'costo' => $Request->costo,
+            ]);
+            return redirect('irmttoperso')->with('mensaje', 'Registro de mantenimiento agregado con éxito');
     }
 
     public function irmttoperso()
     {
-        $registros = DB::table('tbl_mttopersonalizado')->where('planta', auth()->user()->idPlanta)->get();
+
+        $idPlanta = auth()->user()->idPlanta;
+        
+        $registros = ($idPlanta == 'Simasa') 
+                ? DB::table('tbl_mttopersonalizado')->get()  
+                : DB::table('tbl_mttopersonalizado')->where('planta', $idPlanta)->get();
+        
         return view('regisMtto',['registros' => $registros])->with('mensaje', 'Registros creados con éxito');
     }
 
-    
-    
+    public function fixture($id)
+    {  
+
+
+        return view('fixtures');
+    }
+
+    public function fixturesInfo(Request $Request)
+    {  
+        //dd($Request);
+        $date = Carbon::now();
+        $user = auth()->user()->id;
+        DB::table('tbl_fixturesinfo')->insert([
+            'usr' => $user,
+            'tiempo' => $Request->tiempo,
+            'observaciones' => $Request->observaciones,
+            'dateRegister' => $date,
+        ]);
+
+        return view('fixtures');
+    }
 }

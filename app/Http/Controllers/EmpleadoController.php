@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use DB;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 
@@ -17,7 +18,7 @@ class EmpleadoController extends Controller
     public function index()
     {
         //
-        $datos['user']=User::paginate(5);
+        $datos['user']=User::paginate();
         return view('empleados.index',$datos);
     }
 
@@ -49,7 +50,7 @@ class EmpleadoController extends Controller
             'role' => 'required|string|max:100',
             'idPlanta' => 'required|string|max:100',
         ];
-
+        
         $mensaje = [
             'name.required' => 'El nombre es requerido.',
             'email.required' => 'El correo es requerido.',
@@ -57,20 +58,22 @@ class EmpleadoController extends Controller
             'role.required' => 'El rol es requerido.',
             'idPlanta.required' => 'El rol es requerido.',
         ];
-
+        
         $this->validate($request, $campos, $mensaje);
-
+        
         // Obtener los datos del formulario, excepto el token CSRF
         $datosEmpleado = $request->except('_token');
-
+        
         // Encriptar la contraseña
         $datosEmpleado['password'] = bcrypt($request->input('password'));
-
+        
+        // Agregar la columna 'updated_at' con la fecha actual
+        $datosEmpleado['created_at'] = now();
+        
         // Insertar el usuario en la base de datos
-
         User::insert($datosEmpleado);
-
-        return redirect('empleado')->with('mensaje', 'Usuario agregado con éxito');
+        
+        return redirect('empleado')->with('mensaje', 'Usuario agregado con éxito');        
     }
 
 
@@ -105,14 +108,17 @@ class EmpleadoController extends Controller
         //dd($Request);
 
         $user = DB::table('users')->where('id', $Request->id)->first();
+        $date = Carbon::now();
 
         if ($user) {
             $updateData = [
                 'name' => $Request->filled('name') ? $Request->name : $user->name,
                 'email' => $Request->filled('email') ? $Request->email : $user->email,
-                'password' => $Request->filled('password') ? $Request->password : $user->password,
+                'password' => $Request->filled('password') ? bcrypt($Request->password) : $user->password,
                 'idPlanta' => $Request->filled('idPlanta') ? $Request->idPlanta : $user->idPlanta,
                 'role' => $Request->filled('role') ? $Request->role : $user->role,
+                'updated_at' => $date,
+                
             ];
 
             if ($updateData != array_intersect_key((array)$user, $updateData)) {

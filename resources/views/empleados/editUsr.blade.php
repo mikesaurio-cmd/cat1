@@ -42,6 +42,7 @@
                         <label for="idPlanta">Planta</label> <label style="color: #E74C3C;" value="{{ isset($infoUser->idPlanta)?$infoUser->idPlanta:old('idPlanta')}}">*</label>
                         <select class="form-control" name="idPlanta" id="idPlanta">
                             <option value="">Selecciona una opción</option>
+                            <option value="Simasa">Simasa</option>
                             @foreach($planta as $value)
                                 <option value="{{ $value->id }}" {{ (old('noParte') == $value->id ? "selected":"") }}> {{ $value->nombrePlanta }}</option>
                             @endforeach

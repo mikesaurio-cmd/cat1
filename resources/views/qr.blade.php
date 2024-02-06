@@ -79,11 +79,11 @@
         <div class="col-12">
         
         <center>
-            @auth
-                @if (auth()->user()->role == 'admin')
-                <a href="{{ route('irmtto',['id' => $registro->IdRegistro]) }}" class="btn btn-warning">Validar mantenimiento</a>
-                @endif
-            @endauth
+            @if(auth()->user()->idPlanta == 4 || auth()->user()->idPlanta == 'Simasa')
+                <a href="{{ route('fixture',['id' => $registro->IdRegistro]) }}" class="btn" style="background-color:#FF6D00;color:white">Fixtures</a>
+            @endif
+
+            <a href="{{ route('irmtto',['id' => $registro->IdRegistro]) }}" class="btn btn-warning" style="color:white">Validar mantenimiento</a>
             <a href="javascript:history.back()" class="btn btn-primary">Regresar</a>
             @if($registro->img)
                 <a href="{{ $registro->img }}" download class="btn btn-success">Descargar archivos</a><br><br>
@@ -114,6 +114,7 @@
                 </center>
             @endif
             
+            
         </center>
 
         </div>
@@ -140,7 +141,14 @@
                         <td>{{$value->idMtto}}</td>
                         <td>{{$value->idRegistro }}</td>
                         <td>{{$value->noRegistro }}</td>
-                        <td>{{$value->mtto }}</td>
+                        @php
+                        if($value->mtto == 0) {
+                                $resultado = '<span class="badge badge-danger">De manera no correcta</span>';
+                            } elseif ($value->mtto == 1) {
+                                $resultado = '<span class="badge badge-success">De manera correcta</span>';
+                            }
+                        @endphp
+                        <td>{!! $resultado !!}</td>
                         <td>{{$value->observaciones }}</td>
                         <td>{{$value->fechaRevision }}</td>
                         <td>{{$value->proxMtto }}</td>
